@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import models.Discount;
 import models.Product;
 import utils.AppConstants;
 import utils.DriversHandler;
@@ -28,9 +29,14 @@ public class MainTest {
 		driver.get(AppConstants.BASE_URL);
 
 		String randomProduct = Helper.genarateRandomString(10);
-		System.out.println("Product: " + randomProduct);
+		String randomDisount = Helper.genarateRandomString(5);
+		System.out.println("Product: " + randomProduct + "  --Discount:" + randomDisount);
+
 		Product object = new Product(randomProduct, "Short Description Test", "Full Description Test", "COMP_HP_GAME",
 				"Computers >> Software", "12000");
+
+		Discount discount = new Discount(randomDisount, "Assigned to products", "10", "50", "12/31/2021 12:00:00 AM",
+				"02/28/2022 12:00:00 AM");
 
 		Actions actions = new Actions(driver);
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -264,6 +270,88 @@ public class MainTest {
 
 		checkTitleAndURL(AppConstants.DISCOUTS_URL, AppConstants.DISCOUNTS_TITLE);
 		System.out.println("Title: " + driver.getTitle());
+
+		// ------------------- Add New Discount Page -------------------
+		WebElement addNewDiscountBtn = driver.findElement(By.cssSelector("a[href='/Admin/Discount/Create']"));
+		actions.moveToElement(addNewDiscountBtn).build().perform();
+//				Assert.assertEquals(Color.fromString(addNewDiscountBtn.getCssValue("background-color")).asHex(), "#4580a2");
+		addNewDiscountBtn.click();
+
+		Thread.sleep(3 * 1000);
+		checkTitleAndURL(AppConstants.ADD_DISCOUNT_URL, AppConstants.ADD_DISCOUNT_TITLE);
+		System.out.println("Title: " + driver.getTitle());
+		openCardIfClosed(driver.findElement(By.cssSelector("#discount-info")), "#discount-info");
+
+		// ***Discount Name
+		WebElement discountName = driver.findElement(By.id("Name"));
+		setFieldText(discountName, discount.getName());
+		checkFieldTooltip("Name", "The name of the discount.");
+
+		// ***Discount Type
+		WebElement DiscountTypeId = driver.findElement(By.id("DiscountTypeId"));
+		Select typeDropdown = new Select(DiscountTypeId);
+		typeDropdown.selectByVisibleText(discount.getType());
+		Assert.assertEquals(typeDropdown.getFirstSelectedOption().getText(), discount.getType());
+		checkFieldTooltip("DiscountTypeId", "The type of discount.");
+
+		// ***Discount UsePercentage
+		WebElement UsePercentage = driver.findElement(By.id("UsePercentage"));
+		if (!UsePercentage.isSelected()) {
+			UsePercentage.click();
+			Assert.assertTrue(UsePercentage.isSelected());
+		}
+		checkFieldTooltip("UsePercentage",
+				"Determines whether to apply a percentage discount to the order/SKUs. If not enabled, a set value is discounted.");
+
+		// ***Discount Percentage
+		WebElement discountPercentage = driver
+				.findElement(By.xpath("//*[@id=\"pnlDiscountPercentage\"]/div[2]/span/span/input[1]"));
+		discountPercentage.sendKeys(discount.getPercentage() + Keys.TAB);
+		Assert.assertEquals(discountPercentage.getAttribute("aria-valuenow"), discount.getPercentage());
+//				setFieldText(productPrice, object.getPrice());
+		checkFieldTooltip("DiscountPercentage", "The percentage discount to apply to order/SKUs.");
+
+		// ***Discount Amount
+//				WebElement MaximumDiscountAmount = driver
+//						.findElement(By.xpath("//*[@id=\"pnlMaximumDiscountAmount\"]/div[2]/span/span/input[1]"));
+//				MaximumDiscountAmount.sendKeys(discount.getAmount() + Keys.TAB);
+//				Assert.assertEquals(MaximumDiscountAmount.getAttribute("aria-valuenow"), discount.getAmount());
+//						setFieldText(productPrice, object.getPrice());
+		checkFieldTooltip("MaximumDiscountAmount",
+				"Maximum allowed discount amount. Leave empty to allow any discount amount. If you're using \"Assigned to products\" discount type, then it's applied to each product separately.");
+
+		// ***Discount Start Date
+		WebElement StartDateUtc = driver.findElement(By.id("StartDateUtc"));
+		setFieldText(StartDateUtc, discount.getStartDate());
+		checkFieldTooltip("StartDateUtc", "The start of the discount period in Coordinated Universal Time (UTC).");
+
+		// ***Discount End Date
+		WebElement EndDateUtc = driver.findElement(By.id("EndDateUtc"));
+		setFieldText(EndDateUtc, discount.getEndDate());
+		checkFieldTooltip("EndDateUtc", "The end of the discount period in Coordinated Universal Time (UTC).");
+
+		// ********* Save Discount
+		WebElement saveDiscountBtn = driver.findElement(By.name("save"));
+//				WebElement saveDiscountBtn = driver.findElement(By.name("save-continue"));
+		actions.moveToElement(saveDiscountBtn).build().perform();
+//				Assert.assertEquals(Color.fromString(saveDiscountBtn.getCssValue("background-color")).asHex(), "#4580a2");
+		saveDiscountBtn.click();
+		// successMsg
+		checkTitleAndURL(AppConstants.DISCOUTS_URL, AppConstants.DISCOUNTS_TITLE);
+		System.out.println("Title: " + driver.getTitle());
+		checkSuccessAlert("The new discount has been added successfully.");
+//				WebElement successDisountMsg = driver.findElement(By.className("alert-success"));
+//				Assert.assertTrue(successDisountMsg.getText().contains("The new discount has been added successfully."));
+		// Search for added discount in products list
+		WebElement SearchDiscountName = driver.findElement(By.id("SearchDiscountName"));
+		setFieldText(SearchDiscountName, discount.getName());
+		checkFieldTooltip("SearchDiscountName", "Search by discount name.");
+		WebElement searchDiscounts = driver.findElement(By.id("search-discounts"));
+		searchDiscounts.click();
+		// check empty result label not exist
+		Assert.assertTrue(driver.findElements(By.className("dataTables_empty")).isEmpty());
+		// check discount found in search results
+		Assert.assertTrue(!driver.findElements(By.xpath("//td[text() = '" + discount.getName() + "']")).isEmpty());
 
 	}
 
