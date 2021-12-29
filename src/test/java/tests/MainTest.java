@@ -422,6 +422,69 @@ public class MainTest {
 		Assert.assertTrue(EndDateUtcE.getAttribute("value").contains(discount.getEndDate()));
 		checkFieldTooltip("EndDateUtc", "The end of the discount period in Coordinated Universal Time (UTC).");
 
+		// ------------------- Add Product To Discount -------------------
+		WebElement btnAddNewProduct = driver.findElement(By.id("btnAddNewProduct"));
+		actions.moveToElement(btnAddNewProduct).build().perform();
+//				Assert.assertEquals(Color.fromString(addNewDiscountBtn.getCssValue("background-color")).asHex(), "#4580a2");
+//				onclick="javascript:OpenWindow('/Admin/Discount/ProductAddPopup?discountId=12&btnId=btnRefreshProducts&formId=discount-form', 800, 800, true); return false;"
+		String onclickJavascript = btnAddNewProduct.getAttribute("onclick");
+		System.out.println(onclickJavascript);
+		String[] splitStrings = onclickJavascript.split("\'");
+		String onclickUrl = splitStrings[1];
+		System.out.println(onclickUrl);
+
+		String parentWindowID = driver.getWindowHandle();
+		btnAddNewProduct.click();
+
+		// Get all opened browser windows
+		for (String windowID : driver.getWindowHandles()) {
+			String title = driver.switchTo().window(windowID).getTitle();
+			System.out.println("Window Title: " + driver.getTitle() + " *** " + title);
+
+			if (title.contains("Add a new product")) {
+				checkTitleAndURL(onclickUrl, AppConstants.ADD_PRODUCT_POPUP_TITLE);
+				Assert.assertEquals(title, driver.getTitle());
+				// Add new product to current discount
+				// Search for added product in products list
+				WebElement SearchProductNameP = driver.findElement(By.id("SearchProductName"));
+				setFieldText(SearchProductNameP, object.getName());
+				checkFieldTooltip("SearchProductName", "A product name.");
+				WebElement btnSearchP = driver.findElement(By.id("search-products"));
+				btnSearchP.click();
+				// Select product
+				WebElement productRowCheckBox = driver
+						.findElement(By.xpath("//td[text() = '" + object.getName() + "']/parent::tr/td/input"));
+				if (!productRowCheckBox.isSelected()) {
+					productRowCheckBox.click();
+					Assert.assertTrue(productRowCheckBox.isSelected());
+				}
+				// Save Selected Product
+				WebElement SaveSelectedProduct = driver.findElement(By.name("save"));
+				SaveSelectedProduct.click();
+
+//						driver.close();
+				break;
+			}
+		}
+		// Return to Edit page
+		driver.switchTo().window(parentWindowID);
+		checkTitleAndURL(AppConstants.EDIT_DISCOUNT_URL, AppConstants.EDIT_DISCOUNT_TITLE);
+		// Check if product added to list
+		Assert.assertTrue(driver.findElements(By.cssSelector("#products-grid_wrapper .dataTables_empty")).isEmpty());
+		Assert.assertTrue(!driver.findElements(By.xpath("//td[text() = '" + object.getName() + "']")).isEmpty());
+
+		// Save changes on Discount
+		WebElement saveDiscountChangesBtn = driver.findElement(By.name("save"));
+		actions.moveToElement(saveDiscountChangesBtn).build().perform();
+//				Assert.assertEquals(Color.fromString(saveDiscountChangesBtn.getCssValue("background-color")).asHex(), "#4580a2");
+		saveDiscountChangesBtn.click();
+
+		// successMsg
+		checkTitleAndURL(AppConstants.DISCOUTS_URL, AppConstants.DISCOUNTS_TITLE);
+		System.out.println("Title: " + driver.getTitle());
+//				WebElement successEditDisountMsg = driver.findElement(By.className("alert-success"));
+//				Assert.assertTrue(successEditDisountMsg.getText().contains("The discount has been updated successfully."));
+		checkSuccessAlert("he discount has been updated successfully.");
 	}
 
 //	public static void assertNavItemSelected(WebElement item) {
