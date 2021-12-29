@@ -250,6 +250,21 @@ public class MainTest {
 		// check product found in search results
 		Assert.assertTrue(!driver.findElements(By.xpath("//td[text() = '" + object.getName() + "']")).isEmpty());
 
+		// ------------------- Discounts Page -------------------
+		WebElement navPromotions = driver
+				.findElement(By.xpath("//p[contains(text(), 'Promotions')]/ancestor::a[@href='#']/parent::li"));
+		actions.moveToElement(navPromotions).click().perform();
+		Thread.sleep(1 * 1000);
+		System.out.println("navPromotions: " + navPromotions.getAttribute("class"));
+		Assert.assertTrue(navPromotions.getAttribute("class").contains("menu-open"));
+
+		WebElement navDiscounts = wait
+				.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/Admin/Discount/List")));
+		navDiscounts.click();
+
+		checkTitleAndURL(AppConstants.DISCOUTS_URL, AppConstants.DISCOUNTS_TITLE);
+		System.out.println("Title: " + driver.getTitle());
+
 	}
 
 //	public static void assertNavItemSelected(WebElement item) {
