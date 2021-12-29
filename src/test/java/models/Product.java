@@ -3,6 +3,7 @@ package models;
 public class Product {
 
 	private String name;
+	private String image;
 	private String short_description;
 	private String full_description;
 	private String sku;
@@ -10,14 +11,23 @@ public class Product {
 	private String manufacturer;
 	private String price;
 
-	public Product(String name, String short_description, String full_description, String sku, String category,
-			String price) {
+	public Product(String name, String image, String short_description, String full_description, String sku,
+			String category, String price) {
 		this.name = name;
+		this.image = image;
 		this.short_description = short_description;
 		this.full_description = full_description;
 		this.sku = sku;
 		this.category = category;
 		this.price = price;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getName() {

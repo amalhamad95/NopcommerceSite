@@ -33,11 +33,12 @@ public class MainTest {
 		String randomDisount = Helper.genarateRandomString(5);
 		System.out.println("Product: " + randomProduct + "  --Discount:" + randomDisount);
 
-		Product object = new Product(randomProduct, "Short Description Test", "Full Description Test", "COMP_HP_GAME",
-				"Computers >> Software", "12000");
+		Product object = new Product(randomProduct,
+				"https://admin-demo.nopcommerce.com/images/thumbs/default-image_75.png", "Short Description Test",
+				"Full Description Test", "COMP_HP_GAME", "Computers >> Software", "12000");
 
 		Discount discount = new Discount(randomDisount, "Assigned to products", "10", "50", "12/31/2021 12:00:00 AM",
-				"02/28/2022 12:00:00 AM");
+				"2/28/2022 12:00:00 AM");
 
 		Actions actions = new Actions(driver);
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -82,10 +83,6 @@ public class MainTest {
 		checkTitleAndURL(AppConstants.PRODUCTS_URL, AppConstants.PRODUCTS_TITLE);
 		System.out.println("Title: " + driver.getTitle());
 
-//		Assert.assertTrue(driver.getCurrentUrl().contains("/Product/List"));
-//		WebElement productsPageTitle = driver.findElement(By.className("float-left"));
-//		Assert.assertTrue(productsPageTitle.getText().contains("Products"));
-
 		// ------------------- Add New Product Page -------------------
 		WebElement addNewProductBtn = driver.findElement(By.cssSelector("a[href='/Admin/Product/Create']"));
 		System.out.println("addNewProductBtn: " + addNewProductBtn.getCssValue("background-color"));
@@ -99,10 +96,6 @@ public class MainTest {
 
 		Thread.sleep(3 * 1000);
 		checkTitleAndURL(AppConstants.ADD_PRODUCT_URL, AppConstants.ADD_PRODUCT_TITLE);
-		System.out.println("Title: " + driver.getTitle());
-//		Assert.assertTrue(driver.getCurrentUrl().contains("/Admin/Product/Create"));
-//		WebElement newProductPageTitle = driver.findElement(By.className("float-left"));
-//		Assert.assertTrue(newProductPageTitle.getText().contains("Add a new product"));
 
 		String bodyClasses = driver.findElement(By.tagName("body")).getAttribute("class");
 		System.out.println("bodyClasses: " + bodyClasses);
@@ -115,55 +108,19 @@ public class MainTest {
 		openCardIfClosed(driver.findElement(By.cssSelector("#product-price")), "#product-price");
 		openCardIfClosed(driver.findElement(By.cssSelector("#product-inventory")), "#product-inventory");
 
-//		WebElement infoCard = driver.findElement(By.cssSelector("#product-info"));
-//		System.out.println("infoCard: " + infoCard.getAttribute("class"));
-//		if (!infoCard.getAttribute("class").contains("collapsed-card")) {
-//			WebElement toggle = driver.findElement(By.cssSelector("#product-info i.toggle-icon"));
-//			toggle.click();
-//		}
-//
-//		WebElement priceCard = driver.findElement(By.cssSelector("#product-price"));
-//		System.out.println("priceArea: " + priceCard.getAttribute("class"));
-//		if (!priceCard.getAttribute("class").contains("collapsed-card")) {
-//			WebElement toggle = driver.findElement(By.cssSelector("#product-price i.toggle-icon"));
-//			toggle.click();
-//		}
-//
-//		WebElement inventoryCard = driver.findElement(By.cssSelector("#product-inventory"));
-//		System.out.println("inventoryCard: " + inventoryCard.getAttribute("class"));
-//		if (!inventoryCard.getAttribute("class").contains("collapsed-card")) {
-//			WebElement toggle = driver.findElement(By.cssSelector("#product-inventory i.toggle-icon"));
-//			toggle.click();
-//		}
-
 		// ***************Product Info
 		// ***Product Name
 		WebElement productName = driver.findElement(By.id("Name"));
 		setFieldText(productName, object.getName());
 		checkFieldTooltip("Name", "The name of the product.");
-//		productName.sendKeys(object.getName());
-//		// Assert entered value
-//		Assert.assertTrue(productName.getAttribute("value").contains(object.getName()));
-//		// Assert tootip
-//		WebElement nameTootip = driver.findElement(By.cssSelector("label[for=\"Name\"]+div[data-toggle=\"tooltip\"]"));
-//		Assert.assertTrue(nameTootip.getAttribute("data-original-title").contains("The name of the product."));
 
 		// ***Product ShortDescription
 		WebElement productShortDescription = driver.findElement(By.id("ShortDescription"));
 		setFieldText(productShortDescription, object.getShort_description());
 		checkFieldTooltip("ShortDescription",
 				"Short description is the text that is displayed in product list i.e. сategory / manufacturer pages.");
-//		productShortDescription.sendKeys(object.getShort_description());
-//		// Assert entered value
-//		Assert.assertTrue(productShortDescription.getAttribute("value").contains(object.getShort_description()));
-//		// Assert tootip
-//		WebElement ShortDescriptionTootip = driver
-//				.findElement(By.cssSelector("label[for=\"ShortDescription\"]+div[data-toggle=\"tooltip\"]"));
-//		Assert.assertTrue(ShortDescriptionTootip.getAttribute("data-original-title").contains(
-//				"Short description is the text that is displayed in product list i.e. сategory / manufacturer pages."));
 
 		// ***Product FullDescription
-//		wait.until(ExpectedConditions.visibilityOfElementLocated((By.id("FullDescription_ifr"))));
 		driver.switchTo().frame("FullDescription_ifr");
 		WebElement editable = driver.switchTo().activeElement();
 		editable.sendKeys(object.getFull_description());
@@ -173,24 +130,12 @@ public class MainTest {
 		Assert.assertTrue(iFramebody.getText().contains(object.getFull_description()));
 		driver.switchTo().defaultContent();
 		checkFieldTooltip("FullDescription", "Full description is the text that is displayed in product page.");
-//		// Assert tootip
-//		WebElement ShortFullDescription = driver
-//				.findElement(By.cssSelector("label[for=\"FullDescription\"]+div[data-toggle=\"tooltip\"]"));
-//		Assert.assertTrue(ShortFullDescription.getAttribute("data-original-title")
-//				.contains("Full description is the text that is displayed in product page."));
 
 		// ***Product Sku
 		WebElement productSku = driver.findElement(By.id("Sku"));
 		setFieldText(productSku, object.getSku());
 		checkFieldTooltip("Sku",
 				"Product stock keeping unit (SKU). Your internal unique identifier that can be used to track this product.");
-//		productSku.sendKeys(object.getSku());
-//		// Assert entered value
-//		Assert.assertTrue(productSku.getAttribute("value").contains(object.getSku()));
-//		// Assert tootip
-//		WebElement SkuTootip = driver.findElement(By.cssSelector("label[for=\"Sku\"]+div[data-toggle=\"tooltip\"]"));
-//		Assert.assertTrue(SkuTootip.getAttribute("data-original-title").contains(
-//				"Product stock keeping unit (SKU). Your internal unique identifier that can be used to track this product."));
 
 		// ***Product Category
 		WebElement productCategory = driver
@@ -207,7 +152,6 @@ public class MainTest {
 				.findElement(By.xpath("//div[@id=\"product-price-area\"]/div[2]/span/span/input"));
 		productPrice.sendKeys(object.getPrice() + Keys.TAB);
 		Assert.assertEquals(productPrice.getAttribute("aria-valuenow"), object.getPrice());
-//		setFieldText(productPrice, object.getPrice());
 		checkFieldTooltip("Price",
 				"The price of the product. You can manage currency by selecting Configuration > Currencies.");
 
@@ -241,21 +185,24 @@ public class MainTest {
 		saveBtn.click();
 		// successMsg
 		checkTitleAndURL(AppConstants.PRODUCTS_URL, AppConstants.PRODUCTS_TITLE);
-		System.out.println("Title: " + driver.getTitle());
-//		Assert.assertTrue(driver.getCurrentUrl().contains("/Product/List"));
 		checkSuccessAlert("The new product has been added successfully.");
-//		WebElement successMsg = driver.findElement(By.className("alert-success"));
-//		Assert.assertTrue(successMsg.getText().contains("The new product has been added successfully."));
 		// Search for added product in products list
 		WebElement SearchProductName = driver.findElement(By.id("SearchProductName"));
-		setFieldText(SearchProductName, object.getName());
-		checkFieldTooltip("SearchProductName", "A product name.");
 		WebElement btnSearch = driver.findElement(By.id("search-products"));
-		btnSearch.click();
-		// check empty result label not exist
-		Assert.assertTrue(driver.findElements(By.className("dataTables_empty")).isEmpty());
-		// check product found in search results
-		Assert.assertTrue(!driver.findElements(By.xpath("//td[text() = '" + object.getName() + "']")).isEmpty());
+		checkFieldTooltip("SearchProductName", "A product name.");
+		searchForItem(SearchProductName, btnSearch, object.getName());
+		// check product data in table row
+		WebElement productRow = driver.findElement(By.xpath("//td[text() = '" + object.getName() + "']/parent::tr"));
+		List<WebElement> productColumns = productRow.findElements(By.tagName("td"));
+		String productRowAttrs = "";
+		for (WebElement column : productColumns) {
+			productRowAttrs += column.getText() + "\t";
+		}
+		System.out.println("discountRowAttrs: " + productRowAttrs);
+		Assert.assertTrue(productRowAttrs.contains(object.getName()));
+//		Assert.assertTrue(productRowAttrs.contains(object.getImage()));
+		Assert.assertTrue(productRowAttrs.contains(object.getSku()));
+		Assert.assertTrue(productRowAttrs.contains(object.getPrice()));
 
 		// ------------------- Discounts Page -------------------
 		WebElement navPromotions = driver
@@ -309,7 +256,6 @@ public class MainTest {
 				.findElement(By.xpath("//*[@id=\"pnlDiscountPercentage\"]/div[2]/span/span/input[1]"));
 		discountPercentage.sendKeys(discount.getPercentage() + Keys.TAB);
 		Assert.assertEquals(discountPercentage.getAttribute("aria-valuenow"), discount.getPercentage());
-//				setFieldText(productPrice, object.getPrice());
 		checkFieldTooltip("DiscountPercentage", "The percentage discount to apply to order/SKUs.");
 
 		// ***Discount Amount
@@ -339,20 +285,12 @@ public class MainTest {
 		saveDiscountBtn.click();
 		// successMsg
 		checkTitleAndURL(AppConstants.DISCOUTS_URL, AppConstants.DISCOUNTS_TITLE);
-		System.out.println("Title: " + driver.getTitle());
 		checkSuccessAlert("The new discount has been added successfully.");
-//				WebElement successDisountMsg = driver.findElement(By.className("alert-success"));
-//				Assert.assertTrue(successDisountMsg.getText().contains("The new discount has been added successfully."));
 		// Search for added discount in products list
 		WebElement SearchDiscountName = driver.findElement(By.id("SearchDiscountName"));
-		setFieldText(SearchDiscountName, discount.getName());
+		WebElement btnSearchDiscounts = driver.findElement(By.id("search-discounts"));
 		checkFieldTooltip("SearchDiscountName", "Search by discount name.");
-		WebElement searchDiscounts = driver.findElement(By.id("search-discounts"));
-		searchDiscounts.click();
-		// check empty result label not exist
-		Assert.assertTrue(driver.findElements(By.className("dataTables_empty")).isEmpty());
-		// check discount found in search results
-		Assert.assertTrue(!driver.findElements(By.xpath("//td[text() = '" + discount.getName() + "']")).isEmpty());
+		searchForItem(SearchDiscountName, btnSearchDiscounts, discount.getName());
 
 		// ------------------- Edit Discount Page -------------------
 		WebElement discountRow = driver.findElement(By.xpath("//td[text() = '" + discount.getName() + "']/parent::tr"));
@@ -470,7 +408,7 @@ public class MainTest {
 		driver.switchTo().window(parentWindowID);
 		checkTitleAndURL(AppConstants.EDIT_DISCOUNT_URL, AppConstants.EDIT_DISCOUNT_TITLE);
 		// Check if product added to list
-		Assert.assertTrue(driver.findElements(By.cssSelector("#products-grid_wrapper .dataTables_empty")).isEmpty());
+//		Assert.assertTrue(driver.findElements(By.cssSelector("#products-grid_wrapper .dataTables_empty")).isEmpty());
 		Assert.assertTrue(!driver.findElements(By.xpath("//td[text() = '" + object.getName() + "']")).isEmpty());
 
 		// Save changes on Discount
@@ -481,10 +419,22 @@ public class MainTest {
 
 		// successMsg
 		checkTitleAndURL(AppConstants.DISCOUTS_URL, AppConstants.DISCOUNTS_TITLE);
-		System.out.println("Title: " + driver.getTitle());
-//				WebElement successEditDisountMsg = driver.findElement(By.className("alert-success"));
-//				Assert.assertTrue(successEditDisountMsg.getText().contains("The discount has been updated successfully."));
 		checkSuccessAlert("he discount has been updated successfully.");
+
+		// *** Check if product found in Discount products list after reOpen this
+		// discount page
+		WebElement SearchDiscountName2 = driver.findElement(By.id("SearchDiscountName"));
+		WebElement btnSearchDiscounts2 = driver.findElement(By.id("search-discounts"));
+		checkFieldTooltip("SearchDiscountName", "Search by discount name.");
+		searchForItem(SearchDiscountName2, btnSearchDiscounts2, discount.getName());
+		WebElement DiscountRowAfterAddingProduct = driver.findElement(By
+				.xpath("//td[text() = '" + discount.getName() + "']/following-sibling::td[@class=' button-column']/a"));
+		DiscountRowAfterAddingProduct.click();
+		checkTitleAndURL(AppConstants.EDIT_DISCOUNT_URL, AppConstants.EDIT_DISCOUNT_TITLE);
+		openCardIfClosed(driver.findElement(By.cssSelector("#discount-applied-to-products")),
+				"#discount-applied-to-products");
+		Assert.assertTrue(!driver.findElements(By.xpath("//td[text() = '" + object.getName() + "']")).isEmpty());
+
 	}
 
 //	public static void assertNavItemSelected(WebElement item) {
@@ -509,6 +459,15 @@ public class MainTest {
 		}
 	}
 
+	public static void openSearchCardIfClosed() {
+		WebElement searchCard = driver.findElement(By.className("search-row"));
+		System.out.println("searchCard: " + searchCard.getAttribute("class"));
+		if (!searchCard.getAttribute("class").contains("opened")) {
+			searchCard.click();
+			System.out.println("openCardIfClosed: true");
+		}
+	}
+
 	public static void setFieldText(WebElement element, String value) {
 		element.clear();
 		element.sendKeys(value);
@@ -528,5 +487,16 @@ public class MainTest {
 		Assert.assertTrue(successAlert.getText().contains(message));
 		String hexColor = Color.fromString(successAlert.getCssValue("background-color")).asHex();
 		Assert.assertEquals(hexColor, "#17b76d");
+	}
+
+	public static void searchForItem(WebElement inputSearch, WebElement btnSearch, String name) {
+		openSearchCardIfClosed();
+		setFieldText(inputSearch, name);
+		btnSearch.click();
+		// check empty result label not exist
+		Assert.assertTrue(driver.findElements(By.className("dataTables_empty")).isEmpty());
+		// check item found in search results
+		Assert.assertTrue(!driver.findElements(By.xpath("//td[text() = '" + name + "']")).isEmpty());
+
 	}
 }

@@ -29,7 +29,7 @@ public class AppConstants {
 	public static final String ADD_DISCOUNT_TITLE = "Add a new discount";
 	public static final String EDIT_DISCOUNT_TITLE = "Edit discount details";
 
-	public static final String ADD_PRODUCT_POPUP_URL = "Discount/ProductAddPopup?discountId=3&btnId=btnRefreshProducts&formId=discount-form";
+	public static final String ADD_PRODUCT_POPUP_URL = "Discount/ProductAddPopup?discountId=";
 	public static final String ADD_PRODUCT_POPUP_TITLE = "Add a new product";
 
 }
