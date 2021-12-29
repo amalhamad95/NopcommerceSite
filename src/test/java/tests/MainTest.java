@@ -26,5 +26,16 @@ public class MainTest {
 		Assert.assertEquals(loginEmail.getAttribute("value"), "admin@yourstore.com");
 		Assert.assertEquals(loginPassword.getAttribute("value"), "admin");
 		loginBtn.click();
+
+		// ------------------- Dashboard Page -------------------
+		Assert.assertTrue(driver.getCurrentUrl().contains(AppConstants.DASHBOARD_URL));
+		WebElement dashboardTitle = driver.findElement(By.cssSelector(".content-header > h1"));
+		Assert.assertTrue(dashboardTitle.getText().contains(AppConstants.DASHBOARD_TITLE));
+		System.out.println("Title: " + driver.getTitle());
+
+		WebElement navDashboard = driver.findElement(By.cssSelector("li.nav-item a[href='/Admin']"));
+		Assert.assertTrue(navDashboard.getAttribute("class").contains("active"));
+		Assert.assertEquals(navDashboard.getCssValue("color"), "rgba(255, 255, 255, 1)");
+
 	}
 }
