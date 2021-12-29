@@ -227,6 +227,29 @@ public class MainTest {
 		Assert.assertEquals(StockQuantity.getAttribute("aria-valuenow"), "10000");
 		checkFieldTooltip("StockQuantity", "The current stock quantity of this product.");
 
+		// ********* Save Product
+		WebElement saveBtn = driver.findElement(By.name("save"));
+		actions.moveToElement(saveBtn).build().perform();
+//		Assert.assertEquals(Color.fromString(saveBtn.getCssValue("background-color")).asHex(), "#4580a2");
+		saveBtn.click();
+		// successMsg
+		checkTitleAndURL(AppConstants.PRODUCTS_URL, AppConstants.PRODUCTS_TITLE);
+		System.out.println("Title: " + driver.getTitle());
+//		Assert.assertTrue(driver.getCurrentUrl().contains("/Product/List"));
+		checkSuccessAlert("The new product has been added successfully.");
+//		WebElement successMsg = driver.findElement(By.className("alert-success"));
+//		Assert.assertTrue(successMsg.getText().contains("The new product has been added successfully."));
+		// Search for added product in products list
+		WebElement SearchProductName = driver.findElement(By.id("SearchProductName"));
+		setFieldText(SearchProductName, object.getName());
+		checkFieldTooltip("SearchProductName", "A product name.");
+		WebElement btnSearch = driver.findElement(By.id("search-products"));
+		btnSearch.click();
+		// check empty result label not exist
+		Assert.assertTrue(driver.findElements(By.className("dataTables_empty")).isEmpty());
+		// check product found in search results
+		Assert.assertTrue(!driver.findElements(By.xpath("//td[text() = '" + object.getName() + "']")).isEmpty());
+
 	}
 
 //	public static void assertNavItemSelected(WebElement item) {
@@ -265,5 +288,10 @@ public class MainTest {
 		Assert.assertTrue(tooltip.getAttribute("data-original-title").contains(tipText));
 	}
 
-	
+	public static void checkSuccessAlert(String message) {
+		WebElement successAlert = driver.findElement(By.className("alert-success"));
+		Assert.assertTrue(successAlert.getText().contains(message));
+		String hexColor = Color.fromString(successAlert.getCssValue("background-color")).asHex();
+		Assert.assertEquals(hexColor, "#17b76d");
+	}
 }
