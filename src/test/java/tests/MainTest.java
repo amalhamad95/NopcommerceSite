@@ -435,6 +435,110 @@ public class MainTest {
 				"#discount-applied-to-products");
 		Assert.assertTrue(!driver.findElements(By.xpath("//td[text() = '" + object.getName() + "']")).isEmpty());
 
+		// ------------------- Products Page -------------------
+		WebElement navCatalog2 = driver
+				.findElement(By.xpath("//p[contains(text(), 'Catalog')]/ancestor::a[@href='#']/parent::li"));
+		navCatalog2.click();
+		Thread.sleep(1 * 1000);
+		Assert.assertTrue(navCatalog2.getAttribute("class").contains("menu-open"));
+
+		WebElement navProducts2 = wait
+				.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/Admin/Product/List']")));
+		navProducts2.click();
+//		Assert.assertTrue(navCatalog.getAttribute("class").contains("active"));
+
+		checkTitleAndURL(AppConstants.PRODUCTS_URL, AppConstants.PRODUCTS_TITLE);
+
+		// Search for added product in products list
+		WebElement SearchProductName2 = driver.findElement(By.id("SearchProductName"));
+		WebElement btnSearch2 = driver.findElement(By.id("search-products"));
+		checkFieldTooltip("SearchProductName", "A product name.");
+		searchForItem(SearchProductName2, btnSearch2, object.getName());
+		WebElement productRowBtn2 = driver.findElement(
+				By.xpath("//td[text() = '" + object.getName() + "']/following-sibling::td[@class=' button-column']/a"));
+		productRowBtn2.click();
+		String bodyClasses2 = driver.findElement(By.tagName("body")).getAttribute("class");
+		System.out.println("bodyClasses: " + bodyClasses2);
+		if (bodyClasses2.contains("basic-settings-mode")) {
+			WebElement onoffswitch = driver.findElement(By.className("onoffswitch"));
+			onoffswitch.click();
+		}
+
+		openCardIfClosed(driver.findElement(By.cssSelector("#product-price")), "#product-price");
+		Assert.assertTrue(!driver
+				.findElements(By.xpath(
+						"//ul[@id='SelectedDiscountIds_taglist']/li/span[text() = '" + discount.getName() + "']"))
+				.isEmpty());
+
+		/// Check current product data
+		// ***Product Name
+		WebElement productName2 = driver.findElement(By.id("Name"));
+		Assert.assertTrue(productName2.getAttribute("value").contains(object.getName()));
+		checkFieldTooltip("Name", "The name of the product.");
+
+		// ***Product ShortDescription
+		WebElement productShortDescription2 = driver.findElement(By.id("ShortDescription"));
+		Assert.assertTrue(productShortDescription2.getAttribute("value").contains(object.getShort_description()));
+		checkFieldTooltip("ShortDescription",
+				"Short description is the text that is displayed in product list i.e. сategory / manufacturer pages.");
+
+		// ***Product FullDescription
+		driver.switchTo().frame("FullDescription_ifr");
+		// Assert entered value
+		WebElement iFramebody2 = driver.findElement(By.cssSelector("body"));
+		Assert.assertTrue(iFramebody2.getText().contains(object.getFull_description()));
+		driver.switchTo().defaultContent();
+		checkFieldTooltip("FullDescription", "Full description is the text that is displayed in product page.");
+
+		// ***Product Sku
+		WebElement productSku2 = driver.findElement(By.id("Sku"));
+		Assert.assertTrue(productSku2.getAttribute("value").contains(object.getSku()));
+		checkFieldTooltip("Sku",
+				"Product stock keeping unit (SKU). Your internal unique identifier that can be used to track this product.");
+
+//		// ***Product Category
+////		WebElement productCategory = driver
+////				.findElement(By.cssSelector("input[aria-labelledby=\"SelectedCategoryIds_label\"]"));
+////		productCategory.click();
+//		WebElement selectedCategory2 = driver
+//				.findElement(By.xpath("//ul[@id='SelectedCategoryIds_listbox']/li[text() = 'Computers']"));
+//		Assert.assertEquals(selectedCategory.getAttribute("aria-selected"), "true");
+//
+//		// ***************Product Price
+//		// ***Product Price
+//		WebElement productPrice = driver
+//				.findElement(By.xpath("//div[@id=\"product-price-area\"]/div[2]/span/span/input"));
+//		productPrice.sendKeys(object.getPrice() + Keys.TAB);
+//		Assert.assertEquals(productPrice.getAttribute("aria-valuenow"), object.getPrice());
+//		checkFieldTooltip("Price",
+//				"The price of the product. You can manage currency by selecting Configuration > Currencies.");
+//
+//		// ***Product Price Tax
+//		WebElement IsTaxExempt = driver.findElement(By.id("IsTaxExempt"));
+//		if (!IsTaxExempt.isSelected()) {
+//			IsTaxExempt.click();
+//			Assert.assertTrue(IsTaxExempt.isSelected());
+//		}
+//		checkFieldTooltip("IsTaxExempt",
+//				"Determines whether this product is tax exempt (tax will not be applied to this product at checkout).");
+//
+//		// ***************Product Inventory
+//		// ***Product Inventory
+//		WebElement manageInventoryMethodId = driver.findElement(By.id("ManageInventoryMethodId"));
+//		Select dropdown = new Select(manageInventoryMethodId);
+//		dropdown.selectByVisibleText("Track inventory");
+//		Assert.assertEquals(dropdown.getFirstSelectedOption().getText(), "Track inventory");
+//		checkFieldTooltip("ManageInventoryMethodId",
+//				"Select inventory method. There are three methods: Don’t track inventory, Track inventory and Track inventory by attributes. You should use Track inventory by attributes when the product has different combinations of these attributes and then manage inventory for these combinations.");
+//		// StockQuantity
+//		WebElement StockQuantity = driver
+//				.findElement(By.xpath("//*[@id=\"pnlStockQuantity\"]/div[2]/span/span/input[1]"));
+//		Assert.assertEquals(StockQuantity.getAttribute("aria-valuenow"), "10000");
+//		checkFieldTooltip("StockQuantity", "The current stock quantity of this product.");
+
+		// ************************
+		System.out.println("Happy New Year ^_^");
+//		driver.quit();
 	}
 
 //	public static void assertNavItemSelected(WebElement item) {
@@ -497,6 +601,5 @@ public class MainTest {
 		Assert.assertTrue(driver.findElements(By.className("dataTables_empty")).isEmpty());
 		// check item found in search results
 		Assert.assertTrue(!driver.findElements(By.xpath("//td[text() = '" + name + "']")).isEmpty());
-
 	}
 }

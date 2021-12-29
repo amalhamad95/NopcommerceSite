@@ -5,6 +5,7 @@ public class AppConstants {
 	public static final String BASE_URL = "https://admin-demo.nopcommerce.com/";
 	public static final String ADMIN_BASE_URL = BASE_URL + "Admin/";
 	public static final String LOGIN_URL = BASE_URL + "login";
+	public static final String LOGIN_PAGE = "Your store. Login";
 
 	public static final String DASHBOARD_URL = BASE_URL + "admin/";
 
@@ -15,12 +16,6 @@ public class AppConstants {
 	public static final String ADD_DISCOUNT_URL = ADMIN_BASE_URL + "Discount/Create";
 	public static final String EDIT_DISCOUNT_URL = ADMIN_BASE_URL + "Discount/Edit";
 
-	public static final String LOGIN_PAGE = "Your store. Login";
-//	public static final String DASHBOARD_PAGE = "Dashboard / nopCommerce administration";
-//	public static final String PRODUCTS_PAGE = "Products / nopCommerce administration";
-//	public static final String ADD_PRODUCT_PAGE = "Add a new product / nopCommerce administration";
-//	public static final String DISCOUNTS_PAGE = "Discounts / nopCommerce administration";
-//	public static final String ADD_DISCOUNT_PAGE = "Add a new discount / nopCommerce administration";
 
 	public static final String DASHBOARD_TITLE = "Dashboard";
 	public static final String PRODUCTS_TITLE = "Products";
