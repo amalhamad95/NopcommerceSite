@@ -1,6 +1,7 @@
 package tests;
 
 import java.time.Duration;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -352,6 +353,74 @@ public class MainTest {
 		Assert.assertTrue(driver.findElements(By.className("dataTables_empty")).isEmpty());
 		// check discount found in search results
 		Assert.assertTrue(!driver.findElements(By.xpath("//td[text() = '" + discount.getName() + "']")).isEmpty());
+
+		// ------------------- Edit Discount Page -------------------
+		WebElement discountRow = driver.findElement(By.xpath("//td[text() = '" + discount.getName() + "']/parent::tr"));
+		List<WebElement> discountColumns = discountRow.findElements(By.tagName("td"));
+		String discountRowAttrs = "";
+		for (WebElement column : discountColumns) {
+			discountRowAttrs += column.getText() + "\t";
+		}
+		System.out.println("discountRowAttrs: " + discountRowAttrs);
+		Assert.assertTrue(discountRowAttrs.contains(discount.getName()));
+		Assert.assertTrue(discountRowAttrs.contains(discount.getType()));
+		Assert.assertTrue(discountRowAttrs.contains(discount.getPercentage()));
+		Assert.assertTrue(discountRowAttrs.contains(discount.getStartDate()));
+		Assert.assertTrue(discountRowAttrs.contains(discount.getEndDate()));
+
+		WebElement editDiscountBtn = driver.findElement(By
+				.xpath("//td[text() = '" + discount.getName() + "']/following-sibling::td[@class=' button-column']/a"));
+		editDiscountBtn.click();
+		checkTitleAndURL(AppConstants.EDIT_DISCOUNT_URL, AppConstants.EDIT_DISCOUNT_TITLE);
+		WebElement titleElement = driver.findElement(By.className("float-left"));
+		Assert.assertTrue(
+				titleElement.getText().contains(AppConstants.EDIT_DISCOUNT_TITLE + " - " + discount.getName()));
+
+		openCardIfClosed(driver.findElement(By.cssSelector("#discount-info")), "#discount-info");
+		openCardIfClosed(driver.findElement(By.cssSelector("#discount-applied-to-products")),
+				"#discount-applied-to-products");
+
+		// ***Discount Name
+		WebElement discountNameE = driver.findElement(By.id("Name"));
+		Assert.assertTrue(discountNameE.getAttribute("value").contains(discount.getName()));
+		checkFieldTooltip("Name", "The name of the discount.");
+
+		// ***Discount Type
+		WebElement SelectedDiscountType = driver
+				.findElement(By.xpath("//select[@id='DiscountTypeId']/option[text() = '" + discount.getType() + "']"));
+		Assert.assertEquals(SelectedDiscountType.getAttribute("selected"), "true");
+		checkFieldTooltip("DiscountTypeId", "The type of discount.");
+
+		// ***Discount UsePercentage
+		WebElement UsePercentageE = driver.findElement(By.id("UsePercentage"));
+		Assert.assertTrue(UsePercentageE.isSelected());
+		checkFieldTooltip("UsePercentage",
+				"Determines whether to apply a percentage discount to the order/SKUs. If not enabled, a set value is discounted.");
+
+		// ***Discount Percentage
+		WebElement discountPercentageE = driver
+				.findElement(By.xpath("//*[@id=\"pnlDiscountPercentage\"]/div[2]/span/span/input[1]"));
+		Assert.assertEquals(discountPercentageE.getAttribute("aria-valuenow"), discount.getPercentage());
+		checkFieldTooltip("DiscountPercentage", "The percentage discount to apply to order/SKUs.");
+
+		// ***Discount Amount
+//				WebElement MaximumDiscountAmount = driver
+//						.findElement(By.xpath("//*[@id=\"pnlMaximumDiscountAmount\"]/div[2]/span/span/input[1]"));
+//				MaximumDiscountAmount.sendKeys(discount.getAmount() + Keys.TAB);
+//				Assert.assertEquals(MaximumDiscountAmount.getAttribute("aria-valuenow"), discount.getAmount());
+//						setFieldText(productPrice, object.getPrice());
+		checkFieldTooltip("MaximumDiscountAmount",
+				"Maximum allowed discount amount. Leave empty to allow any discount amount. If you're using \"Assigned to products\" discount type, then it's applied to each product separately.");
+
+		// ***Discount Start Date
+		WebElement StartDateUtcE = driver.findElement(By.id("StartDateUtc"));
+		Assert.assertTrue(StartDateUtcE.getAttribute("value").contains(discount.getStartDate()));
+		checkFieldTooltip("StartDateUtc", "The start of the discount period in Coordinated Universal Time (UTC).");
+
+		// ***Discount End Date
+		WebElement EndDateUtcE = driver.findElement(By.id("EndDateUtc"));
+		Assert.assertTrue(EndDateUtcE.getAttribute("value").contains(discount.getEndDate()));
+		checkFieldTooltip("EndDateUtc", "The end of the discount period in Coordinated Universal Time (UTC).");
 
 	}
 
