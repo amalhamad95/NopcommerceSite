@@ -141,8 +141,8 @@ public class MainTest {
 		WebElement productCategory = driver
 				.findElement(By.cssSelector("input[aria-labelledby=\"SelectedCategoryIds_label\"]"));
 		productCategory.click();
-		WebElement selectedCategory = driver
-				.findElement(By.xpath("//ul[@id='SelectedCategoryIds_listbox']/li[text() = 'Computers']"));
+		WebElement selectedCategory = driver.findElement(
+				By.xpath("//ul[@id='SelectedCategoryIds_listbox']/li[text() = '" + object.getCategory() + "']"));
 		selectedCategory.click();
 		Assert.assertEquals(selectedCategory.getAttribute("aria-selected"), "true");
 
@@ -152,6 +152,7 @@ public class MainTest {
 				.findElement(By.xpath("//div[@id=\"product-price-area\"]/div[2]/span/span/input"));
 		productPrice.sendKeys(object.getPrice() + Keys.TAB);
 		Assert.assertEquals(productPrice.getAttribute("aria-valuenow"), object.getPrice());
+		Assert.assertTrue(productPrice.getAttribute("title").contains("USD"));
 		checkFieldTooltip("Price",
 				"The price of the product. You can manage currency by selecting Configuration > Currencies.");
 
@@ -577,6 +578,8 @@ public class MainTest {
 		element.sendKeys(value);
 		// Assert entered value
 		Assert.assertTrue(element.getAttribute("value").contains(value));
+		// Assert element focus
+		Assert.assertEquals(element, driver.switchTo().activeElement());
 	}
 
 	public static void checkFieldTooltip(String field, String tipText) {
