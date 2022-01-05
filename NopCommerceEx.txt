@@ -1,0 +1,159 @@
+* Navigate to the site
+    - Verify current URL
+    - Verify current page title
+    - Verify currernt page heading
+* Click on 'Login' button
+    - Verify current page title.
+    - Verify current URL.
+    - Verify current page heading.
+    - Verify the hamburger menu is expanded by default.
+* Click on 'Catalog' nav-item
+    - Verify the submenu is exapanded
+    - Verify the 'Catalog' background color is changed.
+    - Verify the 'Catalog' arrow direction is changed
+* Click on 'Products' nav-link
+    - Verify link on-active design.
+    - Verify current page title.
+    - Verify current page URL.
+    - Verify current page heading.
+    - Verify the parent item has a blue left-border.
+* Click on 'Add New' button
+    - Verify button's on-active design.
+    - Verify current page URL.
+    - Verify current page heading.
+    - Verify current page title.
+* Move to 'Basic' edit mode
+    - Verify the edit mode box background-color.
+    - Verify the edit mode box text.
+    - Verify the current number of cards.
+* Expand the 'product Info' card
+    - Verify the '-' icon is displayed.
+    - Verify the form fields are displayed.
+* Fill 'Product Name', 'Short Description', and 'SKU' fields
+    - Verify the current editable field is focused (have blue background).
+    - Verify the entered value is reflected for each field.
+* Fill 'Full Description' field
+    - Verify the entered value is reflected.
+* Fill category field
+    - Verify the field is focused.
+    - Verify the entered search term has results.
+* Select the category value from the drop-down
+    - Verify the selected option is displayed inside the categories field.
+* Expand the 'Price' card
+    - Verify the '-' icon is displayed.
+    - Verify the form fields are displayed.
+* Fill the 'Price' field
+    - Verify the price field is focused.
+    - Verify the entered price value is reflected.
+    - Verify the 'USD' is displayed inside the field after leaving it.
+* Check the 'Tax Exempt'
+    - Verify the 'Tax Category' label and input be hidden.
+    - Verify the field is focused.
+    - Verify the chekbox be checked.
+* Expand the 'Inventory' card
+    - Verify the '-' icon is displayed.
+    - Verify the form field is displayed.
+
+    - Verify the 'Inventory Method' has a default option.
+* Select 'Track Inventory' option
+    - Verify the selected option is displayed inside the drop-down box.
+    - Verify the drop-down field is focused.
+    - Verify the 'Stock Quantity' label and field are displayed.
+* Click on 'Save' button
+    - Verify button on-active design.
+    - Verify the success message is displayed.
+    - Verify the user is directed to the expected URL.
+    - Verify the loading spinner is displayed.
+    - Verify the total number of products is increased by 1.
+    - Verify the added product name, SKU, Price, and stock quantity are reflected in the products list table.
+* Click on the 'Promotions' nav-item
+    - Verify the promotions menu is expanded.
+    - Verify no other nav-item menu is expanded.
+    - Verify the 'Promotion' background color is changed.
+    - Verify the 'Promotion' arrow direction is changed.
+* Click on the 'Discounts' link
+    - Verify link on-active design.
+    - Verify current page title.
+    - Verify current page URL.
+    - Verify current page heading.
+    - Verify the parent item left-border.
+* Click on 'Add New' button
+    - Verify button on-active design.
+    - Verify current URL.
+    - Verify current page title.
+    - Verify current page heading.
+* Expand the 'Discount Info' card
+    - Verify the '-' icon is displayed.
+    - Verify the form field is displayed.
+* Fill the 'Name', and 'Admin Comment' fields
+    - Verify the entered values are reflected.
+    - Verify the current active field is focused.
+* Select 'Discount Type' option
+    - Verify the selected option is reflected.
+    - Verify the field is focused.
+    - Verify the 'Applied To Products' section is displayed.
+* Check 'Use Percentage' checkbox
+    - Verify the checkbox is checked.
+    - Verify the 'Discount Amount' field is hidden.
+    - Verify the 'Discount Percentage' and 'Maximum Discount Amount' fields are displayed.
+* Fill the 'Discount percentage' field
+    - Verify the field is focused.
+    - Verify the entered value is reflected.
+* Fill the 'Maximum discount amount' field
+    - Verify the field is focused.
+    - Verify the entered value is reflected.
+    - Verify the 'USD' is displayed in the field after entering value.
+* Select 'Start Date' and 'End Date' values
+    - Verify the fields are focused under modifying.
+    - Verify the selected dates are reflected in the fields inputs in the correct format.
+* Click on 'Save' button
+    - Verify the current URL.
+    - Verify the success message.
+    - Verify the current page tab's title.
+    - Verify the current page heading.
+    - Verify the discounts number is increased.
+    - Verify 'Save' button on-active design.
+    - Verify the loading spinner is displayed.
+    - Verify the correct discount info is reflected in the page.
+* Click on the 'Edit' button for the previously added discount
+    - Verify current page tab's title.
+    - Verify current page URL.
+    - Verify current page heading.
+    - Verify the loading spinner.
+    - Verify the previosuly filled data is reflected correctly.
+    - Verify the 'Usage History' card is displayed.
+* Expand the 'Applied To Products' card
+    - Verify the card being expanded.
+    - Verify the minus icon is displayed.
+    - Verify the 'Applied To Products' table is empty by default.
+* Click on 'Add a New Product' button
+    - Verify the 'Add New Product' button on-active design.
+    - Verify the windows URL.
+    - Verify the 'Add New Product' window is visible.
+* Fill the 'Product Name' field
+    - Verify the entered value is reflected.
+    - Verify the field is focused.
+* Click on 'Search' button
+    - Verify 'Search' button on-active design.
+    - Verify the table has at least one entry.
+* Check the resulted product in the table
+    - Verify the checkbox being checked.
+* Click on the window's 'Save' button
+    - Verify 'Save' button on-active design.
+    - Verify the 'Add Discount Product' window is not visible.
+    - Verify the selected product is added to the 'Applied To Products' card's table (By product ID).
+    - Verify the pagination size is increased by 1.
+    - Verify the products count be 1.
+* Click on page's 'Save' button
+    - Verify 'Save' button on-active design.
+    - Verify the success message is displayed.
+    - Verify the current page URL.
+    - Verify the current page title.
+    - Verify the current page heading.
+    - Verify the loading spinner is displayed.
+* Navigate to the previously added product edit mode page
+* Switch to the 'Advanced' mode
+* Expand the 'Prices' card
+    - Verify the added discount name is displayed in the 'Discounts' field.
+    - Verify the product's previosuly filled info is reflected.
+* Close the browser.

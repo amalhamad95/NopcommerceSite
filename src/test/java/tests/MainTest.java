@@ -53,6 +53,11 @@ public class MainTest {
 		Assert.assertEquals(loginPassword.getAttribute("value"), "admin");
 		loginBtn.click();
 
+//		JavascriptExecutor js = (JavascriptExecutor) driver;
+//        String text = js.executeScript("return window.getComputedStyle(document.querySelector('.onoffswitch-inner'),'::after').getPropertyValue('content')")
+//                .toString();
+        
+        
 		// ------------------- Dashboard Page -------------------
 		Assert.assertTrue(driver.getCurrentUrl().contains(AppConstants.DASHBOARD_URL));
 		WebElement dashboardTitle = driver.findElement(By.cssSelector(".content-header > h1"));
