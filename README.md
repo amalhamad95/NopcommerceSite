@@ -18,10 +18,11 @@ This project is automation testing for Nopcommerce site https://admin-demo.nopco
 - JDK
 - Eclipse IDE for Java Developers 
 - Chrome browser + Chrome WebDriver
-  
-### How to start using this script
+
+### Quick start
 ```java
 git clone https://github.com/amalhamad95/NopcommerceSite.git
+```
 
 ### Test cases covered by this app
 - Navigate to Dashboard page from Login Page.
@@ -34,3 +35,4 @@ git clone https://github.com/amalhamad95/NopcommerceSite.git
 - Navigate to Edit discount page from selected discount.
 - Check discount details fields.
 - Add prev. product to discount.
+
